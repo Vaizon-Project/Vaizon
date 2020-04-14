@@ -580,7 +580,7 @@ namespace nodetool
     std::set<std::string> full_addrs;
     if (nettype == cryptonote::TESTNET)
     {
-      full_addrs.insert("159.69.109.145:38156");
+      full_addrs.insert("35.224.150.73:23300");
     }
     else if (nettype == cryptonote::STAGENET)
     {
@@ -591,11 +591,10 @@ namespace nodetool
     }
     else
     {
-      full_addrs.insert("116.203.196.12:22022");  // Hetzner seed node
-      full_addrs.insert("149.56.165.115:22022");  // Jason's seed node
-      full_addrs.insert("192.250.236.196:22022"); // Rangeproof Test VPSC Box
-      full_addrs.insert("144.217.243.15:22022");  // OVH(1)
-      full_addrs.insert("51.38.133.145:22022");   // OVH(2)
+      full_addrs.insert("34.68.8.165:13300");
+      full_addrs.insert("34.67.220.202:13300");
+      full_addrs.insert("34.71.79.90:13300");
+      full_addrs.insert("35.225.96.101:13300");
     }
     return full_addrs;
   }
