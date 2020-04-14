@@ -102,13 +102,13 @@ namespace cryptonote {
   bool get_base_block_reward(size_t median_weight, size_t current_block_weight, uint64_t already_generated_coins, uint64_t &reward, uint64_t &reward_unpenalized, uint8_t version, uint64_t height) {
 
     //premine reward
-    if (height == 0)
+    if (height == 1)
     {
       reward = 210000000000000000;
       return true;
     }
 
-    if(height >= 1)
+    if(height >= 2)
 	  {
 		  reward = COIN * 20;
 		  return true;
