@@ -104,7 +104,7 @@ namespace cryptonote {
     //premine reward
     if (height == 0)
     {
-      reward = 210000000000000000 * COIN;
+      reward = 210000000000000000;
       return true;
     }
 
