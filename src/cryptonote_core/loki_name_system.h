@@ -5,7 +5,7 @@
 #include "cryptonote_config.h"
 #include "span.h"
 #include "cryptonote_basic/tx_extra.h"
-#include <vaizonmq/hex.h>
+#include <lokimq/hex.h>
 
 #include <string>
 
@@ -43,7 +43,7 @@ struct mapping_value
   bool operator==(mapping_value const &other) const { return other.len    == len && memcmp(buffer.data(), other.buffer.data(), len) == 0; }
   bool operator==(std::string   const &other) const { return other.size() == len && memcmp(buffer.data(), other.data(), len) == 0; }
 };
-inline std::ostream &operator<<(std::ostream &os, mapping_value const &v) { return os << vaizonmq::to_hex({reinterpret_cast<char const *>(v.buffer.data()), v.len}); }
+inline std::ostream &operator<<(std::ostream &os, mapping_value const &v) { return os << lokimq::to_hex({reinterpret_cast<char const *>(v.buffer.data()), v.len}); }
 
 inline char const *mapping_type_str(mapping_type type)
 {
@@ -170,7 +170,7 @@ public:
 
   /// Attempts to prepare the given statement.  MERRORs and returns false on failure.  If the object
   /// already has a prepare statement then it is finalized first.
-  bool compile(vaizonmq::string_view query, bool optimise_for_multiple_usage = true);
+  bool compile(lokimq::string_view query, bool optimise_for_multiple_usage = true);
 
   template <size_t N>
   bool compile(const char (&query)[N], bool optimise_for_multiple_usage = true)

@@ -4484,7 +4484,7 @@ namespace tools
       return false;
     }
 
-    if (!vaizonmq::is_hex(req.encrypted_value))
+    if (!lokimq::is_hex(req.encrypted_value))
     {
       er.code    = WALLET_RPC_ERROR_CODE_LNS_VALUE_NOT_HEX;
       er.message = "Value is not hex=" + req.encrypted_value;
@@ -4521,7 +4521,7 @@ namespace tools
     // ---------------------------------------------------------------------------------------------
     lns::mapping_value encrypted_value = {};
     encrypted_value.len                = req.encrypted_value.size() / 2;
-    vaizonmq::from_hex(req.encrypted_value.begin(), req.encrypted_value.end(), encrypted_value.buffer.begin());
+    lokimq::from_hex(req.encrypted_value.begin(), req.encrypted_value.end(), encrypted_value.buffer.begin());
 
     lns::mapping_value value = {};
     if (!lns::decrypt_mapping_value(req.name, encrypted_value, value))

@@ -1135,7 +1135,7 @@ namespace cryptonote
 
      std::unique_ptr<service_node_keys> m_service_node_keys;
 
-     /// Service Node's public IP and storage server port (http and vaizonmq)
+     /// Service Node's public IP and storage server port (http and lokimq)
      uint32_t m_sn_public_ip;
      uint16_t m_storage_port;
      uint16_t m_quorumnet_port;

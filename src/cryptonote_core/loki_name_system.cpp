@@ -12,10 +12,10 @@
 #include "cryptonote_core/cryptonote_tx_utils.h"
 #include "cryptonote_basic/tx_extra.h"
 #include "cryptonote_core/blockchain.h"
-#include "vaizon_economy.h"
+#include "loki_economy.h"
 #include "string_coding.h"
 
-#include <vaizonmq/hex.h>
+#include <lokimq/hex.h>
 
 #include <sqlite3.h>
 
@@ -177,7 +177,7 @@ bool bind(sql_compiled_statement& s, int index, const T& val) { return SQLITE_OK
 bool bind(sql_compiled_statement& s, int index, std::nullptr_t) { return SQLITE_OK == sqlite3_bind_null(s.statement, index); }
 
 // text, from a referenced string (which must be kept alive)
-bool bind(sql_compiled_statement& s, int index, vaizonmq::string_view text)
+bool bind(sql_compiled_statement& s, int index, lokimq::string_view text)
 {
   return SQLITE_OK == sqlite3_bind_text(s.statement, index, text.data(), text.size(), nullptr /*dtor*/);
 }
@@ -218,7 +218,7 @@ bool bind_blob(sql_compiled_statement& s, int index, const void* data, size_t le
 }
 
 // from a string_view
-bool bind_blob(sql_compiled_statement& s, int index, vaizonmq::string_view blob)
+bool bind_blob(sql_compiled_statement& s, int index, lokimq::string_view blob)
 {
   return SQLITE_OK == sqlite3_bind_blob(s.statement, index, blob.data(), blob.size(), nullptr /*dtor*/);
 }
@@ -250,7 +250,7 @@ bool bind_blob(sql_compiled_statement& s, I index, T&&... args)
 // bind_all(s, 123, "text", blob_view{data, size});
 //
 struct blob_view {
-  vaizonmq::string_view data;
+  lokimq::string_view data;
   /// Constructor that simply forwards anything to the `data` member constructor
   template <typename... T> explicit blob_view(T&&... args) : data{std::forward<T>(args)...} {}
 };
@@ -302,8 +302,8 @@ template <typename T, std::enable_if_t<std::is_floating_point<T>::value, int> = 
 T get(sql_compiled_statement& s, int index) { return static_cast<T>(sqlite3_column_double(s.statement, index)); }
 
 // text, via a string_view pointing at the text data
-template <typename T, std::enable_if_t<std::is_same<T, vaizonmq::string_view>::value, int> = 0>
-vaizonmq::string_view get(sql_compiled_statement& s, int index)
+template <typename T, std::enable_if_t<std::is_same<T, lokimq::string_view>::value, int> = 0>
+lokimq::string_view get(sql_compiled_statement& s, int index)
 {
   return {reinterpret_cast<const char*>(sqlite3_column_text(s.statement, index)),
           static_cast<size_t>(sqlite3_column_bytes(s.statement, index))};
@@ -332,7 +332,7 @@ template <typename T, typename I>
 void get(sql_compiled_statement& s, I index, T& val) { val = get<T>(s, index); }
 
 // blob, via a string_view
-vaizonmq::string_view get_blob(sql_compiled_statement& s, int index)
+lokimq::string_view get_blob(sql_compiled_statement& s, int index)
 {
   return {reinterpret_cast<const char*>(sqlite3_column_blob(s.statement, index)),
           static_cast<size_t>(sqlite3_column_bytes(s.statement, index))};
@@ -340,7 +340,7 @@ vaizonmq::string_view get_blob(sql_compiled_statement& s, int index)
 
 // blob, via a string_view
 template <typename I, std::enable_if_t<is_int_enum<I>::value, int> = 0>
-vaizonmq::string_view get_blob(sql_compiled_statement& s, I index)
+lokimq::string_view get_blob(sql_compiled_statement& s, I index)
 {
   return get_blob(s, static_cast<int>(index));
 }
@@ -376,7 +376,7 @@ mapping_record sql_get_mapping_from_statement(sql_compiled_statement& statement)
 
   // Copy encrypted_value
   {
-    auto value = get<vaizonmq::string_view>(statement, mapping_record_column::encrypted_value);
+    auto value = get<lokimq::string_view>(statement, mapping_record_column::encrypted_value);
     if (value.size() > result.encrypted_value.buffer.size())
     {
       MERROR("Unexpected encrypted value blob with size=" << value.size() << ", in LNS db larger than the available size=" << result.encrypted_value.buffer.size());
@@ -388,7 +388,7 @@ mapping_record sql_get_mapping_from_statement(sql_compiled_statement& statement)
 
   // Copy name hash
   {
-    auto value = get<vaizonmq::string_view>(statement, mapping_record_column::name_hash);
+    auto value = get<lokimq::string_view>(statement, mapping_record_column::name_hash);
     result.name_hash.append(value.data(), value.size());
   }
 
@@ -521,7 +521,7 @@ bool mapping_record::active(cryptonote::network_type nettype, uint64_t blockchai
   return last_active_height >= (blockchain_height - 1);
 }
 
-bool sql_compiled_statement::compile(vaizonmq::string_view query, bool optimise_for_multiple_usage)
+bool sql_compiled_statement::compile(lokimq::string_view query, bool optimise_for_multiple_usage)
 {
   sqlite3_stmt* st;
 #if SQLITE_VERSION_NUMBER >= 3020000
@@ -928,14 +928,14 @@ bool validate_mapping_value(cryptonote::network_type nettype, mapping_type type,
     if (check_condition((value.size() % 2) != 0, reason, "The value=", value, ", should be a hex string that has an even length to be convertible back into binary, length=", value.size()))
       return false;
 
-    if (check_condition(!vaizonmq::is_hex(value), reason, ", specifies name -> value mapping where the value is not a hex string given value="))
+    if (check_condition(!lokimq::is_hex(value), reason, ", specifies name -> value mapping where the value is not a hex string given value="))
       return false;
 
     if (blob) // NOTE: Given blob, write the binary output
     {
       blob->len = value.size() / 2;
       assert(blob->len <= blob->buffer.size());
-      vaizonmq::from_hex(value.begin(), value.end(), blob->buffer.begin());
+      lokimq::from_hex(value.begin(), value.end(), blob->buffer.begin());
     }
 
     // NOTE: Session public keys are 33 bytes, with the first byte being 0x05 and the remaining 32 being the public key.
@@ -1676,7 +1676,7 @@ static bool add_lns_entry(lns::name_system_db &lns_db, uint64_t height, cryptono
         switch (column_type)
         {
           case mapping_record_column::type:            bind(statement, i+1, static_cast<uint16_t>(entry.type)); break;
-          case mapping_record_column::name_hash:       bind(statement, i+1, vaizonmq::string_view{name_hash}); break;
+          case mapping_record_column::name_hash:       bind(statement, i+1, lokimq::string_view{name_hash}); break;
           case mapping_record_column::encrypted_value: bind(statement, i+1, blob_view{entry.encrypted_value}); break;
           case mapping_record_column::txid:            bind(statement, i+1, blob_view{tx_hash.data, sizeof(tx_hash)}); break;
           case mapping_record_column::prev_txid:       bind(statement, i+1, blob_view{entry.prev_txid.data, sizeof(entry.prev_txid)}); break;

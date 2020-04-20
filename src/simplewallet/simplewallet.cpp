@@ -50,8 +50,8 @@
 #include <boost/format.hpp>
 #include <boost/regex.hpp>
 #include <boost/range/adaptor/transformed.hpp>
-#include <vaizonmq/hex.h>
-#include <vaizonmq/string_view.h>
+#include <lokimq/hex.h>
+#include <lokimq/string_view.h>
 #include "include_base_utils.h"
 #include "common/i18n.h"
 #include "common/command_line.h"
@@ -657,9 +657,9 @@ namespace
 
   void print_secret_key(const crypto::secret_key &k)
   {
-    vaizonmq::string_view data{reinterpret_cast<const char*>(k.data), sizeof(k.data)};
+    lokimq::string_view data{reinterpret_cast<const char*>(k.data), sizeof(k.data)};
     std::ostream_iterator<char> osi{std::cout};
-    vaizonmq::to_hex(data.begin(), data.end(), osi);
+    lokimq::to_hex(data.begin(), data.end(), osi);
   }
 }
 
@@ -6590,7 +6590,7 @@ bool simple_wallet::lns_print_name_to_owners(const std::vector<std::string>& arg
   {
     lns::mapping_value encrypted_value = {};
     encrypted_value.len                = mapping.encrypted_value.size() / 2;
-    vaizonmq::from_hex(mapping.encrypted_value.begin(), mapping.encrypted_value.end(), encrypted_value.buffer.begin());
+    lokimq::from_hex(mapping.encrypted_value.begin(), mapping.encrypted_value.end(), encrypted_value.buffer.begin());
 
     lns::mapping_value value = {};
     if (!lns::decrypt_mapping_value(name, encrypted_value, value))
@@ -6641,7 +6641,7 @@ bool simple_wallet::lns_print_owners_to_names(const std::vector<std::string>& ar
         fail_msg_writer() << "arg too long, fails basic size sanity check max length = " << MAX_LEN << ", arg = " << arg;
         return false;
       }
-      if (!vaizonmq::is_hex(arg))
+      if (!lokimq::is_hex(arg))
       {
         fail_msg_writer() << "arg contains non-hex characters: " << arg;
         return false;

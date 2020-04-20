@@ -37,8 +37,8 @@
 #include "common/random.h"
 #include "common/lock.h"
 
-#include <vaizonmq/vaizonmq.h>
-#include <vaizonmq/hex.h>
+#include <lokimq/lokimq.h>
+#include <lokimq/hex.h>
 #include <shared_mutex>
 
 #undef VAIZON_DEFAULT_LOG_CATEGORY
@@ -50,8 +50,8 @@ namespace {
 
 using namespace service_nodes;
 using namespace std::literals;
-using namespace vaizonmq;
-using namespace vaizonmq::literals;
+using namespace lokimq;
+using namespace lokimq::literals;
 
 using blink_tx = cryptonote::blink_tx;
 
@@ -69,10 +69,10 @@ struct pending_signature_hash {
 using pending_signature_set = std::unordered_set<pending_signature, pending_signature_hash>;
 
 struct SNNWrapper {
-    VaizonMQ lmq;
+    LokiMQ lmq;
     cryptonote::core &core;
 
-    // Track submitted blink txes here; unlike the blinks stored in the mempool we store these ones
+    // Track submitted blink txLokie; unlike the blinks stored in the mempool we store these ones
     // more liberally to track submitted blinks, even if unsigned/unacceptable, while the mempool
     // only stores approved blinks.
     boost::shared_mutex mutex;
@@ -194,7 +194,7 @@ void *new_snnwrapper(cryptonote::core &core, const std::string &bind) {
         seckey = get_data_as_string(keys->key_x25519.data);
         sn = true;
     } else {
-        MINFO("Starting remote-only vaizonmq instance");
+        MINFO("Starting remote-only lokimq instance");
         sn = false;
     }
 
@@ -332,7 +332,7 @@ public:
     }
 
 private:
-    VaizonMQ &lmq;
+    LokiMQ &lmq;
 
     /// Looks up a pubkey in known remotes and adds it to `peers`.  If strong, it is added with an
     /// address, otherwise it is added with an empty address.  If the element already exists, it
@@ -827,7 +827,7 @@ void process_blink_signatures(SNNWrapper &snw, const std::shared_ptr<blink_tx> &
 ///     "#" - precomputed tx hash.  This much match the actual hash of the transaction (the blink
 ///           submission will fail immediately if it does not).
 ///
-void handle_blink(vaizonmq::Message& m, SNNWrapper& snw) {
+void handle_blink(lokimq::Message& m, SNNWrapper& snw) {
     // TODO: if someone sends an invalid tx (i.e. one that doesn't get to the distribution stage)
     // then put a timeout on that IP during which new submissions from them are dropped for a short
     // time.
