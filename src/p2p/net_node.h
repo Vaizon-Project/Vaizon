@@ -274,7 +274,7 @@ namespace nodetool
   private:
     const std::vector<std::string> m_seed_nodes_list =
     {
-      // TODO(loki): "seeds.loki.network"
+      // TODO(vaizon): "seeds.vaizon.network"
     };
 
     bool islimitup=false;
