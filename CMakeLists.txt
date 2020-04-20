@@ -217,7 +217,7 @@ if(NOT MANUAL_SUBMODULES)
     check_submodule(external/rapidjson)
     check_submodule(external/trezor-common)
     check_submodule(external/randomx)
-    check_submodule(external/vaizon-mq mapbox-variant cppzmq)
+    check_submodule(external/loki-mq mapbox-variant cppzmq)
   endif()
 endif()
 
