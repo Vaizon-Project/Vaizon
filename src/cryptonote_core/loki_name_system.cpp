@@ -12,7 +12,7 @@
 #include "cryptonote_core/cryptonote_tx_utils.h"
 #include "cryptonote_basic/tx_extra.h"
 #include "cryptonote_core/blockchain.h"
-#include "loki_economy.h"
+#include "vaizon_economy.h"
 #include "string_coding.h"
 
 #include <lokimq/hex.h>
