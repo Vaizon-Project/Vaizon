@@ -34,8 +34,8 @@ namespace trezor {
 
 #ifdef WITH_DEVICE_TREZOR
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "device.trezor"
+#undef VAIZON_DEFAULT_LOG_CATEGORY
+#define VAIZON_DEFAULT_LOG_CATEGORY "device.trezor"
 
 #define HW_TREZOR_NAME "Trezor"
 

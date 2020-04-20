@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2019, The Monero Project
-// Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, The Vaizon Project
 //
 // All rights reserved.
 //
@@ -41,7 +41,7 @@ using namespace epee;
 #include "common/command_line.h"
 #include "common/updates.h"
 #include "common/download.h"
-#include "common/loki.h"
+#include "common/vaizon.h"
 #include "common/util.h"
 #include "common/perf_timer.h"
 #include "common/random.h"
@@ -60,8 +60,8 @@ using namespace epee;
 #include "p2p/net_node.h"
 #include "version.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "daemon.rpc"
+#undef VAIZON_DEFAULT_LOG_CATEGORY
+#define VAIZON_DEFAULT_LOG_CATEGORY "daemon.rpc"
 
 #define MAX_RESTRICTED_FAKE_OUTS_COUNT 40
 #define MAX_RESTRICTED_GLOBAL_FAKE_OUTS_COUNT 5000
@@ -257,7 +257,7 @@ namespace cryptonote
     res.block_size_median = res.block_weight_median = m_core.get_blockchain_storage().get_current_cumulative_block_weight_median();
     res.start_time = restricted ? 0 : (uint64_t)m_core.get_start_time();
     res.last_storage_server_ping = restricted ? 0 : (uint64_t)m_core.m_last_storage_server_ping;
-    res.last_lokinet_ping = restricted ? 0 : (uint64_t)m_core.m_last_lokinet_ping;
+    res.last_vaizonnet_ping = restricted ? 0 : (uint64_t)m_core.m_last_vaizonnet_ping;
     res.free_space = restricted ? std::numeric_limits<uint64_t>::max() : m_core.get_free_space();
     res.offline = m_core.offline();
     res.bootstrap_daemon_address = restricted ? "" : m_bootstrap_daemon_address;
@@ -273,7 +273,7 @@ namespace cryptonote
     if (restricted)
       res.database_size = round_up(res.database_size, 5ull* 1024 * 1024 * 1024);
     res.update_available = restricted ? false : m_core.is_update_available();
-    res.version = restricted ? std::to_string(LOKI_VERSION[0]) : LOKI_VERSION_STR;
+    res.version = restricted ? std::to_string(VAIZON_VERSION[0]) : VAIZON_VERSION_STR;
     res.status = CORE_RPC_STATUS_OK;
     return true;
   }
@@ -1012,7 +1012,7 @@ namespace cryptonote
     const uint8_t major_version = m_core.get_blockchain_storage().get_current_hard_fork_version();
 
     res.pow_algorithm =
-        major_version >= network_version_12_checkpointing    ? "RandomX (LOKI variant)"               :
+        major_version >= network_version_12_checkpointing    ? "RandomX (VAIZON variant)"               :
         major_version == network_version_11_infinite_staking ? "Cryptonight Turtle Light (Variant 2)" :
                                                                "Cryptonight Heavy (Variant 2)";
 
@@ -1231,7 +1231,7 @@ namespace cryptonote
   //------------------------------------------------------------------------------------------------------------------------------
 
   //
-  // Loki
+  // Vaizon
   //
   bool core_rpc_server::on_get_output_blacklist_bin(const COMMAND_RPC_GET_OUTPUT_BLACKLIST::request& req, COMMAND_RPC_GET_OUTPUT_BLACKLIST::response& res, const connection_context *ctx)
   {
@@ -2277,7 +2277,7 @@ namespace cryptonote
       return true;
     }
 
-    static const char software[] = "loki";
+    static const char software[] = "vaizon";
 #ifdef BUILD_TAG
     static const char buildtag[] = BOOST_PP_STRINGIZE(BUILD_TAG);
     static const char subdir[] = "cli";
@@ -2298,7 +2298,7 @@ namespace cryptonote
       res.status = "Error checking for updates";
       return true;
     }
-    if (tools::vercmp(version.c_str(), LOKI_VERSION_STR) <= 0)
+    if (tools::vercmp(version.c_str(), VAIZON_VERSION_STR) <= 0)
     {
       res.update = false;
       res.status = CORE_RPC_STATUS_OK;
@@ -2607,7 +2607,7 @@ namespace cryptonote
     };
 
   //
-  // Loki
+  // Vaizon
   //
   const command_line::arg_descriptor<int> core_rpc_server::arg_rpc_long_poll_connections = {
       "rpc-long-poll-connections"
@@ -3169,13 +3169,13 @@ namespace cryptonote
     return true;
   }
   //------------------------------------------------------------------------------------------------------------------------------
-  bool core_rpc_server::on_lokinet_ping(const COMMAND_RPC_LOKINET_PING::request& req,
-                                        COMMAND_RPC_LOKINET_PING::response& res,
+  bool core_rpc_server::on_vaizonnet_ping(const COMMAND_RPC_VAIZONNET_PING::request& req,
+                                        COMMAND_RPC_VAIZONNET_PING::response& res,
                                         epee::json_rpc::error&,
                                         const connection_context*)
   {
-    if (handle_ping(req.version, service_nodes::MIN_LOKINET_VERSION,
-          "Lokinet", m_core.m_last_lokinet_ping, LOKINET_PING_LIFETIME, res))
+    if (handle_ping(req.version, service_nodes::MIN_VAIZONNET_VERSION,
+          "Vaizonnet", m_core.m_last_vaizonnet_ping, VAIZONNET_PING_LIFETIME, res))
       m_core.reset_proof_interval();
     return true;
   }
@@ -3442,7 +3442,7 @@ namespace cryptonote
         return false;
       }
 
-      // TODO(loki): We now serialize both owner and backup_owner, since if
+      // TODO(vaizon): We now serialize both owner and backup_owner, since if
       // we specify an owner that is backup owner, we don't show the (other)
       // owner. For RPC compatibility we keep the request_index around until the
       // next hard fork (16)
