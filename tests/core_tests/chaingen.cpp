@@ -763,9 +763,9 @@ bool vaizon_chain_generator::create_block(vaizon_blockchain_entry &entry,
     uint64_t start_height               = height - num_blocks;
 
     if (hf_version == cryptonote::network_version_15_lns)
-      miner_tx_context.batched_governance = FOUNDATION_REWARD_HF15 * num_blocks;
+      miner_tx_context.batched_governance = 0 * num_blocks;
     else if (hf_version == cryptonote::network_version_16)
-      miner_tx_context.batched_governance = FOUNDATION_REWARD_HF16 * num_blocks;
+      miner_tx_context.batched_governance = 0 * num_blocks;
     else
     {
       for (int i = (int)get_block_height(prev.block), count = 0;

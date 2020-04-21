@@ -731,7 +731,7 @@ bool vaizon_core_block_rewards_lrc6::generate(std::vector<test_event_entry>& eve
       if (cryptonote::block_has_governance_output(cryptonote::FAKECHAIN, block))
       {
         hf15_gov++;
-        CHECK_EQ(block.miner_tx.vout.at(2).amount, FOUNDATION_REWARD_HF15 * interval);
+        CHECK_EQ(block.miner_tx.vout.at(2).amount, 0 * interval);
         CHECK_EQ(block.miner_tx.vout.size(), 3);
       }
       else
@@ -746,7 +746,7 @@ bool vaizon_core_block_rewards_lrc6::generate(std::vector<test_event_entry>& eve
       if (cryptonote::block_has_governance_output(cryptonote::FAKECHAIN, block))
       {
         hf16_gov++;
-        CHECK_EQ(block.miner_tx.vout.at(2).amount, FOUNDATION_REWARD_HF16 * interval);
+        CHECK_EQ(block.miner_tx.vout.at(2).amount, 0 * interval);
         CHECK_EQ(block.miner_tx.vout.size(), 3);
       }
       else

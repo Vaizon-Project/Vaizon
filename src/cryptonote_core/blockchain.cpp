@@ -4714,7 +4714,7 @@ bool Blockchain::calc_batched_governance_reward(uint64_t height, uint64_t &rewar
   if (hard_fork_version >= network_version_15_lns)
   {
     reward = num_blocks * (
-        hard_fork_version >= network_version_16 ? FOUNDATION_REWARD_HF16 : FOUNDATION_REWARD_HF15);
+        hard_fork_version >= network_version_16 ? 0: 0);
     return true;
   }
 
