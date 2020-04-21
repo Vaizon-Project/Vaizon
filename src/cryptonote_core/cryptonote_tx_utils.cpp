@@ -165,36 +165,7 @@ namespace cryptonote
 
   uint64_t derive_governance_from_block_reward(network_type nettype, const cryptonote::block &block, uint8_t hf_version)
   {
-    if (hf_version >= 15)
-      return governance_reward_formula(0, hf_version);
-
-    uint64_t result       = 0;
-    uint64_t snode_reward = 0;
-    size_t vout_end     = block.miner_tx.vout.size();
-
-    if (block_has_governance_output(nettype, block))
-      --vout_end; // skip the governance output, the governance may be the batched amount. we want the original base reward
-
-    for (size_t vout_index = 1; vout_index < vout_end; ++vout_index)
-    {
-      tx_out const &output = block.miner_tx.vout[vout_index];
-      snode_reward += output.amount;
-    }
-
-    uint64_t base_reward  = snode_reward * 2; // pre-HF15, SN reward = half of base reward
-    uint64_t governance   = governance_reward_formula(base_reward, hf_version);
-    uint64_t block_reward = base_reward - governance;
-
-    uint64_t actual_reward = 0; // sanity check
-    for (tx_out const &output : block.miner_tx.vout) actual_reward += output.amount;
-
-    CHECK_AND_ASSERT_MES(block_reward <= actual_reward, false,
-        "Rederiving the base block reward from the service node reward "
-        "exceeded the actual amount paid in the block, derived block reward: "
-        << block_reward << ", actual reward: " << actual_reward);
-
-    result = governance;
-    return result;
+    return 0;
   }
 
   uint64_t service_node_reward_formula(uint64_t base_reward, uint8_t hard_fork_version)
