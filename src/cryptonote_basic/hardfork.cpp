@@ -77,15 +77,15 @@ static constexpr HardFork::Params mainnet_hard_forks[] =
 
 static constexpr HardFork::Params testnet_hard_forks[] =
 {
-  { network_version_7,                      120,      0, 1587414121 },
-  { network_version_8,                      150,      0, 1587414122 },
-  { network_version_9_service_nodes,        180,      0, 1587414123 },
-  { network_version_10_bulletproofs,        210,      0, 1587414124 },
-  { network_version_11_infinite_staking,    240,      0, 1551223964 },
-  { network_version_12_checkpointing,       270,  0, 1587424693 }, // 2019-06-28 14:00AEDT
-  { network_version_13_enforce_checkpoints, 300, 0, 1587345493 }, // 2019-09-13 16:00AEDT
-  { network_version_14_blink,               330, 0, 1587349093 }, // 2019-11-30 07:00UTC
-  { network_version_15_lns,                 360, 0, 1587356293 }, // 2020-03-11 15:20UTC
+  { network_version_7,                      1,      0, 1587414121 },
+  { network_version_8,                      10,      0, 1587414122 },
+  { network_version_9_service_nodes,        30,      0, 1587414123 },
+  { network_version_10_bulletproofs,        40,      0, 1587414124 },
+  { network_version_11_infinite_staking,    50,      0, 1551223964 },
+  { network_version_12_checkpointing,       60,  0, 1587424693 }, // 2019-06-28 14:00AEDT
+  { network_version_13_enforce_checkpoints, 70, 0, 1587345493 }, // 2019-09-13 16:00AEDT
+  { network_version_14_blink,               80, 0, 1587349093 }, // 2019-11-30 07:00UTC
+  { network_version_15_lns,                 90, 0, 1587356293 }, // 2020-03-11 15:20UTC
 };
 
 static constexpr HardFork::Params stagenet_hard_forks[] =
