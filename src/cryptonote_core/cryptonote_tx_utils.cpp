@@ -159,7 +159,7 @@ namespace cryptonote
     return
       hard_fork_version >= network_version_16              ? SN_REWARD_HF16 :
       hard_fork_version >= network_version_15_lns          ? SN_REWARD_HF15 :
-      hard_fork_version >= network_version_9_service_nodes ? base_reward : // 50% of base reward up until HF15's fixed payout
+      hard_fork_version >= network_version_9_service_nodes ? base_reward / 2 : // 50% of base reward up until HF15's fixed payout
       0;
 
    /* uint64_t reward = 0;
