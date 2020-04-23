@@ -146,33 +146,26 @@ namespace cryptonote
 
   bool height_has_governance_output(network_type nettype, uint8_t hard_fork_version, uint64_t height)
   {
-    if (height == 0)
-      return false;
-
-    if (hard_fork_version <= network_version_9_service_nodes)
-      return true;
-
-    const cryptonote::config_t &network = cryptonote::get_config(nettype, hard_fork_version);
-    if (height % network.GOVERNANCE_REWARD_INTERVAL_IN_BLOCKS != 0)
-    {
-      return false;
-    }
-
-    return true;
+    return false;
   }
 
   uint64_t derive_governance_from_block_reward(network_type nettype, const cryptonote::block &block, uint8_t hf_version)
   {
     return 0;
   }
-
+ const uint64_t MASTER_NODE_BASE_REWARD_PERCENTAGE = 90;
   uint64_t service_node_reward_formula(uint64_t base_reward, uint8_t hard_fork_version)
   {
     return
       hard_fork_version >= network_version_16              ? SN_REWARD_HF16 :
       hard_fork_version >= network_version_15_lns          ? SN_REWARD_HF15 :
-      hard_fork_version >= network_version_9_service_nodes ? base_reward / 2 : // 50% of base reward up until HF15's fixed payout
+      hard_fork_version >= network_version_9_service_nodes ? base_reward : // 50% of base reward up until HF15's fixed payout
       0;
+
+   /* uint64_t reward = 0;
+    if(hard_fork_version >= 11)
+        reward = (base_reward / 10) * (MASTER_NODE_BASE_REWARD_PERCENTAGE/10) ;
+	return reward;*/
   }
 
   uint64_t get_portion_of_reward(uint64_t portions, uint64_t total_service_node_reward)
@@ -294,11 +287,7 @@ namespace cryptonote
     // Governance Distribution
     if (already_generated_coins != 0)
     {
-      if (reward_parts.governance_paid == 0)
-      {
-        CHECK_AND_ASSERT_MES(hard_fork_version >= network_version_10_bulletproofs, false, "Governance reward can NOT be 0 before hardfork 10, hard_fork_version: " << hard_fork_version);
-      }
-      else
+      if (hard_fork_version >= network_version_10_bulletproofs && reward_parts.governance_paid != 0)
       {
         cryptonote::address_parse_info governance_wallet_address;
         cryptonote::get_account_address_from_str(governance_wallet_address, nettype, *cryptonote::get_config(nettype, hard_fork_version).GOVERNANCE_WALLET_ADDRESS);
