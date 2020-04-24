@@ -54,7 +54,7 @@
 PUSH_WARNINGS
 DISABLE_VS_WARNINGS(4355)
 
-#include "common/loki_integration_test_hooks.h"
+#include "common/vaizon_integration_test_hooks.h"
 namespace cryptonote
 {
   using namespace std::literals;
@@ -953,8 +953,8 @@ namespace cryptonote
       */
      bool set_storage_server_peer_reachable(crypto::public_key const &pubkey, bool value);
 
-     /// Time point at which the storage server and lokinet last pinged us
-     std::atomic<time_t> m_last_storage_server_ping, m_last_lokinet_ping;
+     /// Time point at which the storage server and vaizonnet last pinged us
+     std::atomic<time_t> m_last_storage_server_ping, m_last_vaizonnet_ping;
      std::atomic<uint16_t> m_storage_lmq_port;
 
      /**

@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2020, The Loki Project
+// Copyright (c) 2019-2020, The Vaizon Project
 //
 // All rights reserved.
 //
@@ -41,8 +41,8 @@
 #include <lokimq/hex.h>
 #include <shared_mutex>
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "qnet"
+#undef VAIZON_DEFAULT_LOG_CATEGORY
+#define VAIZON_DEFAULT_LOG_CATEGORY "qnet"
 
 namespace quorumnet {
 
@@ -72,7 +72,7 @@ struct SNNWrapper {
     LokiMQ lmq;
     cryptonote::core &core;
 
-    // Track submitted blink txes here; unlike the blinks stored in the mempool we store these ones
+    // Track submitted blink txLokie; unlike the blinks stored in the mempool we store these ones
     // more liberally to track submitted blinks, even if unsigned/unacceptable, while the mempool
     // only stores approved blinks.
     boost::shared_mutex mutex;
@@ -155,8 +155,8 @@ constexpr el::Level easylogging_level(LogLevel level) {
     return el::Level::Unknown;
 };
 void snn_write_log(LogLevel level, const char *file, int line, std::string msg) {
-    if (ELPP->vRegistry()->allowed(easylogging_level(level), LOKI_DEFAULT_LOG_CATEGORY))
-        el::base::Writer(easylogging_level(level), file, line, ELPP_FUNC, el::base::DispatchAction::NormalLog).construct(LOKI_DEFAULT_LOG_CATEGORY) << msg;
+    if (ELPP->vRegistry()->allowed(easylogging_level(level), VAIZON_DEFAULT_LOG_CATEGORY))
+        el::base::Writer(easylogging_level(level), file, line, ELPP_FUNC, el::base::DispatchAction::NormalLog).construct(VAIZON_DEFAULT_LOG_CATEGORY) << msg;
 }
 
 void setup_endpoints(SNNWrapper& snw);

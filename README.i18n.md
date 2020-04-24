@@ -1,9 +1,9 @@
-Loki daemon internationalization
+Vaizon daemon internationalization
 ==================================
 
-The Loki command line tools can be translated in various languages. If you wish to contribute and need help/support, contact the [Loki Localization Workgroup on Taiga](https://taiga.getloki.org/project/erciccione-loki-localization/) or come chat on `#loki-translations` (Freenode/IRC, riot/matrix, MatterMost)
+The Vaizon command line tools can be translated in various languages. If you wish to contribute and need help/support, contact the [Vaizon Localization Workgroup on Taiga](https://taiga.getvaizon.org/project/erciccione-vaizon-localization/) or come chat on `#vaizon-translations` (Freenode/IRC, riot/matrix, MatterMost)
 
-In order to use the same translation workflow as the [Loki GUI](https://github.com/loki-project/loki-gui), they use Qt Linguist translation files.  However, to avoid the dependencies on Qt this normally implies, they use a custom loader to read those files at runtime.
+In order to use the same translation workflow as the [Vaizon GUI](https://github.com/vaizon-project/vaizon-gui), they use Qt Linguist translation files.  However, to avoid the dependencies on Qt this normally implies, they use a custom loader to read those files at runtime.
 
 ### Tools for translators
 
@@ -22,13 +22,13 @@ To update ts files after changing source code:
 To add a new language, eg Spanish (ISO code es):
 
 ```bash
-cp translations/loki.ts translations/loki_es.ts
+cp translations/vaizon.ts translations/vaizon_es.ts
 ```
 
 To edit translations for Spanish:
 
 ```bash
-linguist translations/loki_es.ts
+linguist translations/vaizon_es.ts
 ```
 
 To build translations after modifying them:
@@ -40,7 +40,7 @@ To build translations after modifying them:
 To test a translation:
 
 ```bash
-LANG=es ./build/release/bin/loki-wallet-cli
+LANG=es ./build/release/bin/vaizon-wallet-cli
 ```
 
 To add new translatable strings in the source code:

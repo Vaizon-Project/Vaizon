@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-constexpr uint64_t COIN                       = (uint64_t)1000000000; // 1 LOKI = pow(10, 9)
+constexpr uint64_t COIN                       = (uint64_t)1000000000; // 1 VAIZON = pow(10, 9)
 constexpr uint64_t MONEY_SUPPLY               = ((uint64_t)(-1)); // MONEY_SUPPLY - total number coins to be generated
 constexpr uint64_t EMISSION_LINEAR_BASE       = ((uint64_t)(1) << 58);
 constexpr uint64_t EMISSION_SUPPLY_MULTIPLIER = 19;
@@ -9,25 +9,24 @@ constexpr uint64_t EMISSION_SUPPLY_DIVISOR    = 10;
 constexpr uint64_t EMISSION_DIVISOR           = 2000000;
 
 // Transition (HF15) money supply parameters
-constexpr uint64_t BLOCK_REWARD_HF15      = 25 * COIN;
-constexpr uint64_t MINER_REWARD_HF15      = BLOCK_REWARD_HF15 * 24 / 100;
-constexpr uint64_t SN_REWARD_HF15         = BLOCK_REWARD_HF15 * 66 / 100;
-constexpr uint64_t FOUNDATION_REWARD_HF15 = BLOCK_REWARD_HF15 * 10 / 100;
+constexpr uint64_t BLOCK_REWARD_HF15      = 20 * COIN;
+constexpr uint64_t MINER_REWARD_HF15      = BLOCK_REWARD_HF15 * 10 / 100;
+constexpr uint64_t SN_REWARD_HF15         = BLOCK_REWARD_HF15 * 90 / 100;
+
 
 // New (HF16+) money supply parameters (tentative - HF16 not yet scheduled)
-constexpr uint64_t BLOCK_REWARD_HF16      = 21 * COIN + 1 /* TODO - see below */;
+constexpr uint64_t BLOCK_REWARD_HF16      = 20 * COIN  /* TODO - see below */;
 constexpr uint64_t SN_REWARD_HF16         = BLOCK_REWARD_HF16 * 90 / 100;
-constexpr uint64_t FOUNDATION_REWARD_HF16 = BLOCK_REWARD_HF16 * 10 / 100;
 
-// TODO: For now we add 1 extra atomic loki to the HF16 block reward, above; ultimately with pulse
+// TODO: For now we add 1 extra atomic vaizon to the HF16 block reward, above; ultimately with pulse
 // we want to just drop the miner reward output entirely when a tx has no transactions, but we don't
 // support that yet in the current code and if we put an output of 0 it currently breaks the test
 // suite (which assumes an output of 0 means ringct, which this is not).  Thus this +1 hack for now,
 // to keep the current test suite happy until we actually implement this for HF16.
-constexpr uint64_t MINER_REWARD_HF16 = 1;
+constexpr uint64_t MINER_REWARD_HF16 = BLOCK_REWARD_HF16 * 10 / 100;
 
-static_assert(MINER_REWARD_HF15 + SN_REWARD_HF15 + FOUNDATION_REWARD_HF15 == BLOCK_REWARD_HF15, "math fail");
-static_assert(MINER_REWARD_HF16 + SN_REWARD_HF16 + FOUNDATION_REWARD_HF16 == BLOCK_REWARD_HF16, "math fail");
+static_assert(MINER_REWARD_HF15 + SN_REWARD_HF15  == BLOCK_REWARD_HF15, "math fail");
+static_assert(MINER_REWARD_HF16 + SN_REWARD_HF16  == BLOCK_REWARD_HF16, "math fail");
 
 // -------------------------------------------------------------------------------------------------
 //
@@ -60,10 +59,10 @@ enum struct mapping_type : uint16_t
 {
   session,
   wallet,
-  lokinet_1year,
-  lokinet_2years,
-  lokinet_5years,
-  lokinet_10years,
+  vaizonnet_1year,
+  vaizonnet_2years,
+  vaizonnet_5years,
+  vaizonnet_10years,
   _count,
   update_record_internal,
 };
@@ -77,16 +76,16 @@ constexpr uint64_t burn_needed(uint8_t /*hf_version*/, mapping_type type)
       result = 0;
       break;
 
-    case mapping_type::lokinet_1year: /* FALLTHRU */
+    case mapping_type::vaizonnet_1year: /* FALLTHRU */
     case mapping_type::session: /* FALLTHRU */
     case mapping_type::wallet: /* FALLTHRU */
     default:
       result = 20 * COIN;
       break;
 
-    case mapping_type::lokinet_2years: result = 40 * COIN; break;
-    case mapping_type::lokinet_5years: result = 80 * COIN; break;
-    case mapping_type::lokinet_10years: result = 120 * COIN; break;
+    case mapping_type::vaizonnet_2years: result = 40 * COIN; break;
+    case mapping_type::vaizonnet_5years: result = 80 * COIN; break;
+    case mapping_type::vaizonnet_10years: result = 120 * COIN; break;
   }
   return result;
 }

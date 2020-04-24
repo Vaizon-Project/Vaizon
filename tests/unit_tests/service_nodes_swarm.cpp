@@ -1,4 +1,4 @@
-// Copyright (c) 2018, The Loki Project
+// Copyright (c) 2018, The Vaizon Project
 // 
 // All rights reserved.
 // 
@@ -35,8 +35,8 @@
 #include <functional>
 #include <iterator>
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "sn_unit_tests"
+#undef VAIZON_DEFAULT_LOG_CATEGORY
+#define VAIZON_DEFAULT_LOG_CATEGORY "sn_unit_tests"
 
 using namespace service_nodes;
 
