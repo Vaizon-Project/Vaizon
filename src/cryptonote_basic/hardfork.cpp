@@ -64,15 +64,15 @@ static uint8_t get_block_version(const cryptonote::block &b)
 // version 7 from the start of the blockchain, inhereted from Monero mainnet
 static constexpr HardFork::Params mainnet_hard_forks[] =
 {
-  { network_version_7,                      1,      0, 1586901988 },
-  { network_version_8,                      65,  0, 1586865988 },
-  { network_version_9_service_nodes,        100, 0, 1586916388 },
-  { network_version_10_bulletproofs,        125, 0, 1586919988 },
-  { network_version_11_infinite_staking,    150, 0, 1586923588 },
-  { network_version_12_checkpointing,       175, 0, 1586927188 }, // 2019-07-24 14:00AEDT
-  { network_version_13_enforce_checkpoints, 200, 0, 1586930788 }, // 2019-10-23 19:00AEDT
-  { network_version_14_blink,               225, 0, 1586934388 }, // 2020-01-09 00:00UTC
-  { network_version_15_lns,                 250, 0, 1586937988 }, // 2020-03-25 14:00AEDT (03:00UTC)
+  { network_version_7,                      1,      0, 1587793507 },
+  { network_version_8,                      65,  0, 1587798307 },
+  { network_version_9_service_nodes,        100, 0, 1587802800 },
+  { network_version_10_bulletproofs,        125, 0, 1587805800 },
+  { network_version_11_infinite_staking,    150, 0, 1587809400 },
+  { network_version_12_checkpointing,       175, 0, 1587816600 }, // 2019-07-24 14:00AEDT
+  { network_version_13_enforce_checkpoints, 200, 0, 1587820260 }, // 2019-10-23 19:00AEDT
+  { network_version_14_blink,               225, 0, 1587823860 }, // 2020-01-09 00:00UTC
+  { network_version_15_lns,                 250, 0, 1587827460 }, // 2020-03-25 14:00AEDT (03:00UTC)
 };
 
 static constexpr HardFork::Params testnet_hard_forks[] =
