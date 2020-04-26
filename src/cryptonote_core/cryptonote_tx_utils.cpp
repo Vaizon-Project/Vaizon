@@ -348,9 +348,12 @@ namespace cryptonote
     // We base governance fees and SN rewards based on the block reward formula.  (Prior to HF13,
     // however, they were accidentally based on the block reward formula *after* subtracting a
     // potential penalty if the miner includes txes beyond the median size limit).
-    result.original_base_reward =
-        hard_fork_version >= network_version_13_enforce_checkpoints ? base_reward_unpenalized : base_reward;
-
+    
+    if (hard_fork_version >= network_version_13_enforce_checkpoints );
+    { 
+      result.original_base_reward = base_reward;
+    }
+    
     result.service_node_total = service_node_reward_formula(result.original_base_reward, hard_fork_version);
     result.service_node_paid  = calculate_sum_of_portions(vaizon_context.service_node_payouts, result.service_node_total);
 
