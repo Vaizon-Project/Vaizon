@@ -349,7 +349,7 @@ namespace cryptonote
     // however, they were accidentally based on the block reward formula *after* subtracting a
     // potential penalty if the miner includes txes beyond the median size limit).
     
-    if (hard_fork_version >= network_version_13_enforce_checkpoints );
+    if (hard_fork_version >= network_version_13_enforce_checkpoints )
     { 
       result.original_base_reward = base_reward;
     }
