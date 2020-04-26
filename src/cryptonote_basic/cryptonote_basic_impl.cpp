@@ -118,7 +118,7 @@ namespace cryptonote {
     uint64_t base_reward =
       version >= network_version_16 ? BLOCK_REWARD_HF16 :
       version >= network_version_15_lns ? BLOCK_REWARD_HF15 :
-      version >= block_reward_unpenalized_formula_v7(already_generated_coins, height);
+      block_reward_unpenalized_formula_v7(already_generated_coins, height);
 
     uint64_t full_reward_zone = get_min_block_weight(version);
 
