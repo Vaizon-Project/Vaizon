@@ -1,4 +1,5 @@
-// Copyright (c) 2019-2020, The Vaizon Project
+// Copyright (c)      2018, The Loki Project
+// Copyright (c)      2020, The Vaizon Project
 //
 // All rights reserved.
 //
